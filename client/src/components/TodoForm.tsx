@@ -2,6 +2,7 @@ import { Button, Flex, Input, Spinner, useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { BASE_URL } from "../App";
 
 const TodoForm = () => {
   const [newTodo, setNewTodo] = useState("");
@@ -12,7 +13,7 @@ const TodoForm = () => {
     mutationKey: ["createTodo"],
     mutationFn: async (createTodo: { title: string }) => {
       try {
-        const res = await fetch(import.meta.env.VITE_API_URL + "/api/todos", {
+        const res = await fetch(BASE_URL + "/todos", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

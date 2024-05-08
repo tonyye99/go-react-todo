@@ -19,6 +19,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Todo } from "./TodoList";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { BASE_URL } from "../App";
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
   const query = useQueryClient();
@@ -29,16 +30,13 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     mutationKey: ["updateTodo"],
     mutationFn: async () => {
       try {
-        const res = await fetch(
-          import.meta.env.VITE_API_URL + "/api/todos/" + todo._id,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ...todo, done: !todo.done }),
+        const res = await fetch(BASE_URL + "/todos/" + todo._id, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({ ...todo, done: !todo.done }),
+        });
         const response = await res.json();
 
         if (!res.ok) {
@@ -74,12 +72,9 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     mutationKey: ["deleteTodo"],
     mutationFn: async () => {
       try {
-        const res = await fetch(
-          import.meta.env.VITE_API_URL + "/api/todos/" + todo._id,
-          {
-            method: "DELETE",
-          },
-        );
+        const res = await fetch(BASE_URL + "/todos/" + todo._id, {
+          method: "DELETE",
+        });
         const response = await res.json();
 
         if (!res.ok) {
